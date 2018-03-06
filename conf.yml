@@ -21,19 +21,19 @@ modbus_settings:
   reg_max: 65535 # max value for registers
   discrete_inputs:
     block_start: 0 # Data block starting offset
-    block_size: 100 # Data block size
+    block_size: 10 # Data block size
     default: 0 # default value
   coils:
     block_start: 0 # Data block starting offset
-    block_size: 100 # Data block size
+    block_size: 10 # Data block size
     default: 0 # default value
   holding_registers:
     block_start: 0 # Data block starting offset
-    block_size: 2000 # Data block size
+    block_size: 10 # Data block size
     default: 1 # default value
   input_registers:
     block_start: 0 # Data block starting offset
-    block_size: 100 # Data block size
+    block_size: 10 # Data block size
     default: 0 # default value
 # to be simulated modbus devices
 modbus_devices:
