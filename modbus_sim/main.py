@@ -140,7 +140,8 @@ class ModbusServer(object):
                 default_value = server.get(block_name, modbus_settings.get(block_name, {})).get("default", 0)
                 self.modbus_device.add_block(slave_to_add,
                                              block_name, block_type, block_start, block_size)
-                self.modbus_device.set_values(slave_to_add, block_name, block_start, [default_value] * block_size)
+                for x in range(block_start, block_size):
+                    self.modbus_device.set_values(slave_to_add, block_name, block_start, [x] * 1)
             # data.append(str(slave_to_add))
 
     def _process_slave_data(self, data):
