@@ -14,7 +14,7 @@ serial_settings:
 # tcp settings for modbus tcp simulated device
 # standard modbus port 502 requires root permission
 tcp_settings:
-  address: 127.0.0.1
+  address: 192.168.1.37
   port: 5440
 
 # generic modbus simulation settings for each slave
@@ -63,9 +63,9 @@ modbus_devices:
 #      block_start: 0   # Data block starting offset
 #      block_size: 200  # Data block size
       default: 1       # default value
-#  -
-#    protocol: "tcp"
-#    slaves: 1
+  -
+    protocol: "tcp"
+    slaves: 1
 
 
 logging:
