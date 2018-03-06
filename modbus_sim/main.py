@@ -17,6 +17,7 @@ from modbus_sim.utils.namespace import Namespace
 from modbus_sim.utils.common import path
 from modbus_sim.simulation.modbus import ModbusSimu, BLOCK_TYPES
 from modbus_sim.utils.logger import set_logger, get_logger
+from random import randint
 
 
 DEFAULT_BLOCK_START = 0
