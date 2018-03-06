@@ -49,7 +49,7 @@ if __name__ == "__main__":
     simu_parser.add_argument(
         "-c",
         "--simu-config",
-        default="~/simu_config/conf.yml",
+        default="~/configs/conf.yml",
         metavar="(str)",
         required=True,
         help="Default configuration file to be used for modbus simulation script"
