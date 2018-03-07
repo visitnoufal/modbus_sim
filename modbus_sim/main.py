@@ -18,7 +18,7 @@ from modbus_sim.utils.common import path
 from modbus_sim.simulation.modbus import ModbusSimu, BLOCK_TYPES
 from modbus_sim.utils.logger import set_logger, get_logger
 from random import randint
-
+import threading
 
 DEFAULT_BLOCK_START = 0
 DEFAULT_BLOCK_SIZE = 100
