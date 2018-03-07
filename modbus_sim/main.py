@@ -128,7 +128,7 @@ class ModbusServer(object):
             
     def set_rand_values(self, slave_to_add, block_type, block_start, block_size, block_name):
         for x in range(block_start, block_size):
-            self.modbus_device.set_values(slave_to_add, block_name, x, [randint(200,250)] * 1)            
+            self.modbus_device.set_values(slave_to_add, block_name, x, [randint(1,2500)] * 1)            
         threading.Timer(2.0, self.set_rand_values,[slave_to_add, block_type, block_start, block_size, block_name]).start()
 
     def add_slaves(self, slaves=[], server={}, modbus_settings={}):
