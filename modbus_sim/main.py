@@ -129,7 +129,7 @@ class ModbusServer(object):
     def set_rand_values(self, slave_to_add, block_type, block_start, block_size, block_name):
         for x in range(block_start, block_size):
             self.modbus_device.set_values(slave_to_add, block_name, x, [randint(1,2500)] * 1)            
-        threading.Timer(2.0, self.set_rand_values,[slave_to_add, block_type, block_start, block_size, block_name]).start()
+        threading.Timer(1.0, self.set_rand_values,[slave_to_add, block_type, block_start, block_size, block_name]).start()
 
     def add_slaves(self, slaves=[], server={}, modbus_settings={}):
         if not slaves:
@@ -145,7 +145,7 @@ class ModbusServer(object):
                 default_value = server.get(block_name, modbus_settings.get(block_name, {})).get("default", 0)
                 self.modbus_device.add_block(slave_to_add,
                                              block_name, block_type, block_start, block_size)
-                #threading.Timer(2.0, self.set_rand_values,[slave_to_add, block_type, block_start, block_size, block_name]).start()
+                #threading.Timer(1.0, self.set_rand_values,[slave_to_add, block_type, block_start, block_size, block_name]).start()
                 self.set_rand_values(slave_to_add, block_type, block_start, block_size, block_name)
                 #for x in range(block_start, block_size):
                 #    self.modbus_device.set_values(slave_to_add, block_name, x, [x] * 1)
