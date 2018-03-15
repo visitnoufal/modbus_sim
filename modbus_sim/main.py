@@ -19,6 +19,8 @@ from modbus_sim.simulation.modbus import ModbusSimu, BLOCK_TYPES
 from modbus_sim.utils.logger import set_logger, get_logger
 from random import randint
 import threading
+import pyexcel
+import sys
 
 DEFAULT_BLOCK_START = 0
 DEFAULT_BLOCK_SIZE = 100
@@ -72,6 +74,11 @@ class ModbusServer(object):
     def __init__(self, protocol, settings):
         self.protocol = protocol
         self.settings = settings
+	sys.stdout.write('Reading vessel data ...')
+	sys.stdout.flush()
+	self.open_sheet("/opt/simulator/Dietlin.xlsx")
+	print("... Done.")
+	self.get_all_tags(1,28)
 
     @property
     def modbus_device(self):
@@ -125,7 +132,49 @@ class ModbusServer(object):
         if self.modbus_device:
             self.modbus_device.stop()
             self.server_running = False
-            
+
+    def open_sheet(self, file):
+        self.tag_file=file
+        return_value = False
+        try:
+            self.book = pyexcel.get_book(file_name=self.tag_file)
+        except Exception, error_message:
+            print("\n** ERROR : %s \n\n") % (error_message)
+            return return_value
+        self.all_sheet_names = self.book.sheet_names()
+#    if self.debug:
+#        print("\n\nALL Sheet Names (tabs) = %s \n\n") %  self.all_sheet_names
+        return_value = True
+        return return_value
+
+    def close_sheet(self):
+        pass
+
+    def get_modbus_devices(self, sheet, cols):
+	pass
+
+    def get_all_tags(self, sheet, col):
+        self.sheet_num=sheet
+        self.tag_col = col
+        sheet = self.book.sheet_by_index(self.sheet_num) # get the sheet num
+        header_list = [header for header in sheet.row_at(1)]
+#        sheet_list = list(set(sheet))
+#        print sheet.number_of_rows()
+
+        row_id = 0                                                              # start at row 0
+        cell_set = set()
+
+        for current_row in sheet.rows():                                        # iterate through all rows
+	    if len(sheet[row_id, self.tag_col].strip())>0 and len(str(sheet[row_id, self.tag_col+1]).strip())>0 and sheet[row_id, self.tag_col].strip()!= "NA" and str(sheet[row_id, self.tag_col+1]).strip()!= "NA":
+            	cell_value = sheet[row_id, self.tag_col]+","+str(sheet[row_id, self.tag_col+1])
+#            if self.debug:
+#            print("Cell[%s,%s]  = %s") % (row_id, self.tag_col, cell_value)
+            	if cell_value and row_id > 1:                                       # we only want data values after row 2 (zero based)
+                	cell_set.add(cell_value)                                        # add unique values to the set only
+            row_id += 1
+        row_id = 1
+        print list(cell_set)
+
     def set_rand_values(self, slave_to_add, block_type, block_start, block_size, block_name):
         for x in range(block_start, block_size):
             self.modbus_device.set_values(slave_to_add, block_name, x, [randint(1,2500)] * 1)            
